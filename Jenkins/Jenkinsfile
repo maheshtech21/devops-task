@@ -1,0 +1,75 @@
+pipeline {
+    agent any
+
+    environment {
+        REGISTRY = "docker.io"                       
+        DOCKER_HUB_USERNAME = "maheshtech21"       
+        IMAGE_NAME = "devops-task"
+        BUILD_NUMBER_TAG = "${env.BUILD_NUMBER}"
+        HELM_RELEASE = "node-app"
+        HELM_CHART = "Helmchart/node-app"
+    }
+
+    stages {
+        stage('Git Clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/maheshtech21/devops-task.git'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                script {
+                    docker.build("${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BUILD_NUMBER_TAG}")
+                }
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh """
+                        echo $PASSWORD | docker login -u $USERNAME --password-stdin
+                        docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BUILD_NUMBER_TAG}
+                    """
+                }
+            }
+        }
+
+        // stage('Get Kube Credentials') {
+        //     steps {
+        //         sh """
+        //             az aks get-credentials --resource-group devops --name devops-aks --overwrite-existing
+        //         """
+        //     }
+        // }
+
+        // stage('Helm Deploy') {
+        //     steps {
+        //         sh """
+        //             helm upgrade --install $HELM_RELEASE $HELM_CHART \
+        //             --set image.repository=${DOCKER_HUB_USERNAME}/${IMAGE_NAME} \
+        //             --set image.tag=${BUILD_NUMBER_TAG} \
+        //             --kube-context $KUBE_CONTEXT
+        //         """
+        //     }
+        // }
+
+        // stage('Wait for Deployment') {
+        //     steps {
+        //         sh """
+        //             kubectl rollout status deployment/$HELM_RELEASE --kube-context $KUBE_CONTEXT
+        //         """
+        //     }
+        // }
+    }
+
+    post {
+        success {
+            echo "Deployment completed successfully!"
+        }
+        failure {
+            echo "Deployment failed!"
+        }
+    }
+}

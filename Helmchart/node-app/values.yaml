@@ -1,0 +1,13 @@
+appname: node-app
+
+namespace: dev
+
+replicas: 1
+
+image:
+  name: maheshtech21/devops-task
+  tag: v1
+
+
+Service:
+  port: 8080
