@@ -19,9 +19,9 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                script {
-                    docker.build("${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BUILD_NUMBER_TAG}")
-                }
+                sh """
+                        docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BUILD_NUMBER_TAG}
+                    """
             }
         }
 
