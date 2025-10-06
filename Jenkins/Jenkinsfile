@@ -20,7 +20,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 sh """
-                        docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BUILD_NUMBER_TAG}
+                        docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BUILD_NUMBER_TAG} .
                     """
             }
         }
