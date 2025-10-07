@@ -8,6 +8,7 @@ pipeline {
         BUILD_NUMBER_TAG = "${env.BUILD_NUMBER}"
         HELM_RELEASE = "node-app"
         HELM_CHART = "Helmchart/node-app"
+        KUBE_CONTEXT = "devops-aks" 
     }
 
     stages {
