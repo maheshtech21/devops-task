@@ -37,7 +37,6 @@ pipeline {
             }
         }
 
-        stages {
         stage('Get Kube Credentials') {
             steps {
                 withCredentials([
@@ -48,7 +47,7 @@ pipeline {
                     az login --service-principal -u $APP_ID -p $PASSWORD --tenant $TENANT_ID
                     az aks get-credentials --resource-group devops --name devops-aks --overwrite-existing
                 '''
-                }
+                
             }
         }
     }
