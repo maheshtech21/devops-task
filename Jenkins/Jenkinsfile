@@ -37,32 +37,32 @@ pipeline {
             }
         }
 
-        // stage('Get Kube Credentials') {
-        //     steps {
-        //         sh """
-        //             az aks get-credentials --resource-group devops --name devops-aks --overwrite-existing
-        //         """
-        //     }
-        // }
+        stage('Get Kube Credentials') {
+            steps {
+                sh """
+                    az aks get-credentials --resource-group devops --name devops-aks --overwrite-existing
+                """
+            }
+        }
 
-        // stage('Helm Deploy') {
-        //     steps {
-        //         sh """
-        //             helm upgrade --install $HELM_RELEASE $HELM_CHART \
-        //             --set image.repository=${DOCKER_HUB_USERNAME}/${IMAGE_NAME} \
-        //             --set image.tag=${BUILD_NUMBER_TAG} \
-        //             --kube-context $KUBE_CONTEXT
-        //         """
-        //     }
-        // }
+        stage('Helm Deploy') {
+            steps {
+                sh """
+                    helm upgrade --install $HELM_RELEASE $HELM_CHART \
+                    --set image.repository=${DOCKER_HUB_USERNAME}/${IMAGE_NAME} \
+                    --set image.tag=${BUILD_NUMBER_TAG} \
+                    --kube-context $KUBE_CONTEXT
+                """
+            }
+        }
 
-        // stage('Wait for Deployment') {
-        //     steps {
-        //         sh """
-        //             kubectl rollout status deployment/$HELM_RELEASE --kube-context $KUBE_CONTEXT
-        //         """
-        //     }
-        // }
+        stage('Wait for Deployment') {
+            steps {
+                sh """
+                    kubectl rollout status deployment/$HELM_RELEASE --kube-context $KUBE_CONTEXT
+                """
+            }
+        }
     }
 
     post {
