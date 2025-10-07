@@ -11,3 +11,12 @@ image:
 
 Service:
   port: 8080
+
+ingress:
+  enabled: true
+  class: nginx
+  host: nodeapp.devcops.in
+  path: /
+  proxyBodySize: 40m
+  proxyMaxTempFileSize: 5m
+  backendProtocol: TCP
