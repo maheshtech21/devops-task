@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: node-app-ingress
+  name: {{ .Values.appname }}-ingress
   namespace: {{ .Values.namespace | default "default" }}
   annotations:
     kubernetes.io/ingress.class: {{ .Values.ingress.class | quote }}
@@ -11,7 +11,16 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-max-temp-file-size: {{ .Values.ingress.proxyMaxTempFileSize | default "5m" }}
     nginx.ingress.kubernetes.io/add-header: X-Cache-Status $upstream_cache_status
     nginx.ingress.kubernetes.io/backend-protocol: {{ .Values.ingress.backendProtocol | default "TCP" }}
+    {{- if .Values.ingress.certManagerIssuer }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.certManagerIssuer | quote }}
+    {{- end }}
 spec:
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host | quote }}
+      secretName: {{ .Values.ingress.tls.secretName | quote }}
+  {{- end }}
   rules:
     - host: {{ .Values.ingress.host | quote }}
       http:

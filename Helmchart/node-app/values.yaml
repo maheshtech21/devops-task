@@ -19,4 +19,8 @@ ingress:
   path: /
   proxyBodySize: 40m
   proxyMaxTempFileSize: 5m
-  backendProtocol: TCP
+  backendProtocol: HTTP
+  certManagerIssuer: letsencrypt-prod
+  tls:
+    enabled: true
+    secretName: node-app-tls
