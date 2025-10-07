@@ -40,6 +40,7 @@ pipeline {
         stage('Get Kube Credentials') {
             steps {
                 sh """
+                    az login --identity
                     az aks get-credentials --resource-group devops --name devops-aks --overwrite-existing
                 """
             }
