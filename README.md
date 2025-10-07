@@ -106,7 +106,7 @@ After the pipeline completes, the Node.js app can be accessed through the config
 
 - The domain used is owned by me for learning purposes.
 
-- Jenkins is hosted at cicd.devcops.in.
+- Jenkins is hosted at https://cicd.devcops.in.
 
 - Let’s Encrypt was used to add HTTPS to the domain.
 
@@ -117,6 +117,9 @@ After the pipeline completes, the Node.js app can be accessed through the config
 - Prometheus is installed to monitor cluster metrics.
 
 - Domain for monitoring is configured with https://monitoring.devcops.in
+
+- username: admin
+- password: prom-operator
 
 All configurations are set up in a minimal structure; they can be enhanced further based on usage and requirements.
 
