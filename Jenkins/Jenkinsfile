@@ -37,14 +37,21 @@ pipeline {
             }
         }
 
+        stages {
         stage('Get Kube Credentials') {
             steps {
-                sh """
-                    az login --identity
+                withCredentials([
+                usernamePassword(credentialsId: 'azure-service-principal', usernameVariable: 'APP_ID', passwordVariable: 'PASSWORD'),
+                string(credentialsId: 'azure-tenant-id', variable: 'TENANT_ID')
+            ]) {
+                sh '''
+                    az login --service-principal -u $APP_ID -p $PASSWORD --tenant $TENANT_ID
                     az aks get-credentials --resource-group devops --name devops-aks --overwrite-existing
-                """
+                '''
+                }
             }
         }
+    }
 
         stage('Helm Deploy') {
             steps {
