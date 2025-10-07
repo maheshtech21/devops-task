@@ -45,6 +45,7 @@ pipeline {
                 string(credentialsId: 'azure-tenant-id', variable: 'TENANT_ID')
             ]) {
                 sh '''
+                    set +x
                     az login --service-principal -u $APP_ID -p $PASSWORD --tenant $TENANT_ID
                     az aks get-credentials --resource-group devops --name devops-aks --overwrite-existing
                 '''
