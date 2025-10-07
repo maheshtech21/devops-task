@@ -57,9 +57,10 @@ pipeline {
             steps {
                 sh """
                     helm upgrade --install $HELM_RELEASE $HELM_CHART \
+                    --namespace dev \
+                    --create-namespace \
                     --set image.repository=${DOCKER_HUB_USERNAME}/${IMAGE_NAME} \
                     --set image.tag=${BUILD_NUMBER_TAG} \
-                    --create-namespace \
                     --kube-context $KUBE_CONTEXT
                 """
             }
