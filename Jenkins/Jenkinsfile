@@ -69,7 +69,7 @@ pipeline {
         stage('Wait for Deployment') {
             steps {
                 sh """
-                    kubectl rollout status deployment/$HELM_RELEASE --kube-context $KUBE_CONTEXT
+                    kubectl rollout status deployment/$HELM_RELEASE 
                 """
             }
         }
